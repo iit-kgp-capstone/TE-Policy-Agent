@@ -1,0 +1,328 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:te-policy-agent:evaluation:gold-eval-record:v1",
+  "title": "T&E Policy Agent - Week 1 Gold Evaluation Record",
+  "description": "Schema for a single gold evaluation query and expected ground-truth answer aligned with project_scope.md.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "query_id",
+    "responsibility_area",
+    "difficulty",
+    "user_query",
+    "structured_inputs",
+    "gold_output",
+    "evaluation_criteria"
+  ],
+  "properties": {
+    "query_id": {
+      "type": "string",
+      "pattern": "^EVAL-[0-9]{3}$",
+      "description": "Unique identifier for the evaluation case (e.g., EVAL-001)."
+    },
+    "responsibility_area": {
+      "type": "string",
+      "enum": [
+        "travel_eligibility",
+        "flight_booking",
+        "hotel_accommodation",
+        "meal_and_per_diem",
+        "expense_claim",
+        "receipt_verification",
+        "mileage_reimbursement",
+        "approval_hierarchy",
+        "policy_exception",
+        "policy_recommendation"
+      ],
+      "description": "Maps to the 10 core responsibilities in project_scope.md."
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": [
+        "easy",
+        "medium",
+        "hard",
+        "adversarial"
+      ]
+    },
+    "user_query": {
+      "type": "string",
+      "minLength": 10,
+      "description": "Natural-language request submitted by the employee."
+    },
+    "structured_inputs": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "The 9 agent inputs from project_scope.md. Null indicates the field was intentionally omitted to test missing-info handling.",
+      "required": [
+        "employee_id",
+        "employee_grade",
+        "department",
+        "travel_destination",
+        "travel_dates",
+        "expense_category",
+        "expense_amount",
+        "receipt_info",
+        "project_code"
+      ],
+      "properties": {
+        "employee_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "employee_grade": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "department": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "travel_destination": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "travel_dates": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "start_date": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "end_date": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            },
+            "booking_date": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "format": "date"
+            }
+          }
+        },
+        "expense_category": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "expense_amount": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "currency": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[A-Z]{3}$"
+            }
+          }
+        },
+        "receipt_info": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "provided": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "type": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "itemized": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "project_code": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "gold_output": {
+      "type": "object",
+      "additionalProperties": false,
+      "description": "Expected 7-field output + 5-state decision taxonomy from project_scope.md.",
+      "required": [
+        "decision_category",
+        "applicable_policy_references",
+        "allowed_expense_amount",
+        "violation_category",
+        "violation_explanation_rubric",
+        "recommended_action",
+        "required_approval_level"
+      ],
+      "properties": {
+        "decision_category": {
+          "type": "string",
+          "enum": [
+            "PASS",
+            "SOFT_FLAG",
+            "HARD_FLAG",
+            "NEEDS_INFORMATION",
+            "HUMAN_REVIEW"
+          ]
+        },
+        "applicable_policy_references": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Exact gold policy document/section IDs used to compute Retrieval Recall@k (empty array if no policy covers the query)."
+        },
+        "allowed_expense_amount": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "value": {
+              "type": [
+                "number",
+                "null"
+              ],
+              "minimum": 0
+            },
+            "currency": {
+              "type": [
+                "string",
+                "null"
+              ],
+              "pattern": "^[A-Z]{3}$"
+            },
+            "tolerance": {
+              "type": "number",
+              "minimum": 0
+            }
+          }
+        },
+        "violation_category": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "description": "Null for PASS/NEEDS_INFORMATION; specific violation code for flags (e.g., HOTEL_CAP_EXCEEDED, INELIGIBLE_CABIN_CLASS)."
+        },
+        "violation_explanation_rubric": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "string"
+          },
+          "description": "Key factual points that a correct explanation must include."
+        },
+        "recommended_action": {
+          "type": "string",
+          "minLength": 5
+        },
+        "required_approval_level": {
+          "type": "string",
+          "enum": [
+            "NONE",
+            "LINE_MANAGER",
+            "DEPARTMENT_HEAD",
+            "FINANCE_CONTROLLER",
+            "VP_OR_DIRECTOR",
+            "HUMAN_COMPLIANCE_REVIEW",
+            "CANNOT_BE_APPROVED"
+          ]
+        }
+      }
+    },
+    "evaluation_criteria": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "missing_required_fields",
+        "must_refuse_checks",
+        "expected_tools",
+        "notes"
+      ],
+      "properties": {
+        "missing_required_fields": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Fields the agent must explicitly ask for when decision_category is NEEDS_INFORMATION."
+        },
+        "must_refuse_checks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "no_invented_policy_limits",
+              "no_fabricated_citations",
+              "no_unauthorized_approval",
+              "no_hard_restriction_override",
+              "no_unsupported_reimbursement_commitment",
+              "no_missing_info_as_approval"
+            ]
+          },
+          "description": "Refusal guardrails from Section 6 of project_scope.md tested by this query."
+        },
+        "expected_tools": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "validate_request_inputs",
+              "search_policy_corpus",
+              "calculate_policy_math",
+              "get_employee_and_approvers"
+            ]
+          }
+        },
+        "notes": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

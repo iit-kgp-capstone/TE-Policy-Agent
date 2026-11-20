@@ -1,0 +1,543 @@
+{
+  "regions": {
+    "IN": {
+      "currency": "INR",
+      "fx_to_usd": 0.012,
+      "mileage_unit": "km",
+      "car_rate": 14.0,
+      "bike_rate": 7.0,
+      "ev_rate": 16.0,
+      "receipt_threshold": 500,
+      "tax_doc": "GST Tax Invoice"
+    },
+    "US": {
+      "currency": "USD",
+      "fx_to_usd": 1.0,
+      "mileage_unit": "mile",
+      "car_rate": 0.67,
+      "bike_rate": 0.35,
+      "ev_rate": 0.72,
+      "receipt_threshold": 25,
+      "tax_doc": "Itemized Merchant Receipt"
+    },
+    "EU": {
+      "currency": "EUR",
+      "fx_to_usd": 1.08,
+      "mileage_unit": "km",
+      "car_rate": 0.35,
+      "bike_rate": 0.2,
+      "ev_rate": 0.4,
+      "receipt_threshold": 20,
+      "tax_doc": "VAT-Compliant Invoice"
+    },
+    "UK": {
+      "currency": "GBP",
+      "fx_to_usd": 1.27,
+      "mileage_unit": "mile",
+      "car_rate": 0.45,
+      "bike_rate": 0.24,
+      "ev_rate": 0.5,
+      "receipt_threshold": 20,
+      "tax_doc": "UK VAT Receipt"
+    },
+    "APAC": {
+      "currency": "SGD",
+      "fx_to_usd": 0.74,
+      "mileage_unit": "km",
+      "car_rate": 0.6,
+      "bike_rate": 0.3,
+      "ev_rate": 0.68,
+      "receipt_threshold": 30,
+      "tax_doc": "GST/Tax Receipt"
+    }
+  },
+  "city_tiers": {
+    "IN": {
+      "Tier-1": {
+        "cities": [
+          "Mumbai",
+          "Delhi",
+          "Bengaluru",
+          "Hyderabad",
+          "Chennai",
+          "Pune",
+          "Kolkata"
+        ],
+        "hotel": 9500,
+        "per_diem": 2200,
+        "peak_months": [
+          "Nov",
+          "Dec",
+          "Jan",
+          "Feb"
+        ],
+        "peak_mult": 1.15
+      },
+      "Tier-2": {
+        "cities": [
+          "Jaipur",
+          "Ahmedabad",
+          "Kochi",
+          "Chandigarh",
+          "Indore",
+          "Patna",
+          "Lucknow"
+        ],
+        "hotel": 6500,
+        "per_diem": 1600,
+        "peak_months": [
+          "Nov",
+          "Dec",
+          "Jan"
+        ],
+        "peak_mult": 1.1
+      },
+      "Tier-3": {
+        "cities": [
+          "Nagpur",
+          "Coimbatore",
+          "Bhopal",
+          "Surat",
+          "Vadodara",
+          "Ranchi"
+        ],
+        "hotel": 4500,
+        "per_diem": 1200,
+        "peak_months": [
+          "Dec",
+          "Jan"
+        ],
+        "peak_mult": 1.1
+      }
+    },
+    "US": {
+      "Tier-1": {
+        "cities": [
+          "New York",
+          "San Francisco",
+          "Boston",
+          "Seattle",
+          "Washington DC",
+          "Los Angeles"
+        ],
+        "hotel": 320,
+        "per_diem": 95,
+        "peak_months": [
+          "May",
+          "Jun",
+          "Sep",
+          "Oct"
+        ],
+        "peak_mult": 1.15
+      },
+      "Tier-2": {
+        "cities": [
+          "Austin",
+          "Chicago",
+          "Denver",
+          "Atlanta",
+          "Dallas",
+          "Miami"
+        ],
+        "hotel": 220,
+        "per_diem": 75,
+        "peak_months": [
+          "Mar",
+          "Apr",
+          "Oct"
+        ],
+        "peak_mult": 1.1
+      },
+      "Tier-3": {
+        "cities": [
+          "Columbus",
+          "Kansas City",
+          "Pittsburgh",
+          "Raleigh",
+          "Salt Lake City"
+        ],
+        "hotel": 160,
+        "per_diem": 60,
+        "peak_months": [
+          "Sep",
+          "Oct"
+        ],
+        "peak_mult": 1.05
+      }
+    },
+    "EU": {
+      "Tier-1": {
+        "cities": [
+          "Paris",
+          "Munich",
+          "Amsterdam",
+          "Zurich",
+          "Frankfurt",
+          "Dublin"
+        ],
+        "hotel": 260,
+        "per_diem": 85,
+        "peak_months": [
+          "Jun",
+          "Jul",
+          "Sep"
+        ],
+        "peak_mult": 1.15
+      },
+      "Tier-2": {
+        "cities": [
+          "Berlin",
+          "Madrid",
+          "Milan",
+          "Vienna",
+          "Brussels",
+          "Barcelona"
+        ],
+        "hotel": 190,
+        "per_diem": 65,
+        "peak_months": [
+          "May",
+          "Jun",
+          "Sep"
+        ],
+        "peak_mult": 1.1
+      }
+    },
+    "UK": {
+      "Tier-1": {
+        "cities": [
+          "London",
+          "Edinburgh"
+        ],
+        "hotel": 250,
+        "per_diem": 80,
+        "peak_months": [
+          "Jun",
+          "Jul",
+          "Aug"
+        ],
+        "peak_mult": 1.15
+      },
+      "Tier-2": {
+        "cities": [
+          "Manchester",
+          "Birmingham",
+          "Bristol",
+          "Leeds"
+        ],
+        "hotel": 160,
+        "per_diem": 60,
+        "peak_months": [
+          "Jun",
+          "Jul"
+        ],
+        "peak_mult": 1.1
+      }
+    },
+    "APAC": {
+      "Tier-1": {
+        "cities": [
+          "Singapore",
+          "Tokyo",
+          "Sydney",
+          "Hong Kong"
+        ],
+        "hotel": 300,
+        "per_diem": 95,
+        "peak_months": [
+          "Mar",
+          "Apr",
+          "Sep",
+          "Oct"
+        ],
+        "peak_mult": 1.15
+      },
+      "Tier-2": {
+        "cities": [
+          "Melbourne",
+          "Seoul",
+          "Kuala Lumpur",
+          "Bangkok"
+        ],
+        "hotel": 190,
+        "per_diem": 65,
+        "peak_months": [
+          "Nov",
+          "Dec"
+        ],
+        "peak_mult": 1.1
+      }
+    }
+  },
+  "grade_bands": {
+    "L1-L4": {
+      "grades": [
+        "L1",
+        "L2",
+        "L3",
+        "L4"
+      ],
+      "hotel_mult": 1.0,
+      "flight_dom": "Economy",
+      "flight_intl_short": "Economy",
+      "flight_intl_long": "Premium Economy",
+      "adv_days": 14,
+      "intl_travel_requires_vp": false
+    },
+    "L5-L6": {
+      "grades": [
+        "L5",
+        "L6"
+      ],
+      "hotel_mult": 1.25,
+      "flight_dom": "Economy",
+      "flight_intl_short": "Premium Economy",
+      "flight_intl_long": "Business",
+      "adv_days": 7,
+      "intl_travel_requires_vp": false
+    },
+    "L7-L8": {
+      "grades": [
+        "L7",
+        "L8"
+      ],
+      "hotel_mult": 1.6,
+      "flight_dom": "Business",
+      "flight_intl_short": "Business",
+      "flight_intl_long": "Business",
+      "adv_days": 3,
+      "intl_travel_requires_vp": false
+    }
+  },
+  "eligibility_rules": {
+    "allowed_statuses": [
+      "ACTIVE"
+    ],
+    "probation_travel": "SOFT_FLAG",
+    "contractor_travel": "HUMAN_REVIEW",
+    "restricted_destinations": [
+      "North Korea",
+      "Syria",
+      "Iran",
+      "Crimea",
+      "Sanctioned-Region"
+    ],
+    "valid_project_prefixes": [
+      "PRJ-",
+      "CLI-",
+      "INT-",
+      "RND-"
+    ],
+    "departments": [
+      "Engineering",
+      "Sales",
+      "Consulting",
+      "Finance",
+      "Operations",
+      "HR",
+      "Marketing",
+      "Legal"
+    ]
+  },
+  "expense_caps_usd_eq": {
+    "ground_transport": {
+      "per_day": 60,
+      "soft_overage_pct": 0.2
+    },
+    "client_entertainment": {
+      "per_attendee": 75,
+      "soft_overage_pct": 0.15
+    },
+    "telecom_roaming": {
+      "per_trip": 50,
+      "soft_overage_pct": 0.25
+    },
+    "laundry": {
+      "per_trip_min_4_nights": 40,
+      "soft_overage_pct": 0.15
+    },
+    "airport_parking": {
+      "per_day": 25,
+      "soft_overage_pct": 0.2
+    },
+    "visa_and_passport": {
+      "per_trip": 350,
+      "soft_overage_pct": 0.1
+    }
+  },
+  "prohibited_items": [
+    "alcohol_non_client",
+    "minibar",
+    "in_room_movies",
+    "spa_and_wellness",
+    "personal_grooming",
+    "traffic_fines",
+    "airline_lounge_personal",
+    "companion_travel",
+    "personal_luggage_purchase",
+    "luxury_car_rental",
+    "gym_membership",
+    "pet_boarding"
+  ],
+  "approval_matrix": [
+    {
+      "violation_type": "PASS",
+      "grade_band": "L1-L4",
+      "max_amount_usd_eq": 1000,
+      "approver": "Direct Manager"
+    },
+    {
+      "violation_type": "PASS",
+      "grade_band": "L1-L4",
+      "max_amount_usd_eq": 5000,
+      "approver": "Department Head"
+    },
+    {
+      "violation_type": "PASS",
+      "grade_band": "L5-L6",
+      "max_amount_usd_eq": 2500,
+      "approver": "Direct Manager"
+    },
+    {
+      "violation_type": "PASS",
+      "grade_band": "L5-L6",
+      "max_amount_usd_eq": 10000,
+      "approver": "VP / Business Unit Head"
+    },
+    {
+      "violation_type": "PASS",
+      "grade_band": "L7-L8",
+      "max_amount_usd_eq": 15000,
+      "approver": "Finance Controller"
+    },
+    {
+      "violation_type": "SOFT_FLAG",
+      "grade_band": "L1-L4",
+      "max_amount_usd_eq": 1500,
+      "approver": "Direct Manager"
+    },
+    {
+      "violation_type": "SOFT_FLAG",
+      "grade_band": "L1-L4",
+      "max_amount_usd_eq": 5000,
+      "approver": "Department Head"
+    },
+    {
+      "violation_type": "SOFT_FLAG",
+      "grade_band": "L5-L6",
+      "max_amount_usd_eq": 5000,
+      "approver": "Department Head"
+    },
+    {
+      "violation_type": "SOFT_FLAG",
+      "grade_band": "ALL",
+      "max_amount_usd_eq": 999999,
+      "approver": "Finance Controller"
+    },
+    {
+      "violation_type": "HARD_FLAG",
+      "grade_band": "ALL",
+      "max_amount_usd_eq": 999999,
+      "approver": "BLOCKED (Requires VP + CFO Written Exception)"
+    },
+    {
+      "violation_type": "HUMAN_REVIEW",
+      "grade_band": "ALL",
+      "max_amount_usd_eq": 999999,
+      "approver": "Finance Policy Desk"
+    }
+  ],
+  "vendors": {
+    "IN": {
+      "portal": "Concur-IN / MakeMyTrip Corporate",
+      "airlines": [
+        "IndiGo Corporate",
+        "Air India Corporate",
+        "Akasa Air Business"
+      ],
+      "hotels": [
+        "Taj Group (IHCL)",
+        "Lemon Tree Hotels",
+        "Marriott India",
+        "ITC Hotels"
+      ],
+      "cabs": [
+        "Uber for Business",
+        "BluSmart Corporate",
+        "Ola Corporate"
+      ]
+    },
+    "US": {
+      "portal": "SAP Concur Travel",
+      "airlines": [
+        "Delta Air Lines",
+        "United Airlines",
+        "American Airlines"
+      ],
+      "hotels": [
+        "Marriott Bonvoy Corporate",
+        "Hilton for Business",
+        "Hyatt Business"
+      ],
+      "cabs": [
+        "Uber for Business",
+        "Lyft Business",
+        "Enterprise Rent-A-Car"
+      ]
+    },
+    "EU": {
+      "portal": "SAP Concur EU",
+      "airlines": [
+        "Lufthansa Group",
+        "Air France-KLM",
+        "Iberia Corporate"
+      ],
+      "hotels": [
+        "Accor Business",
+        "NH Hotels",
+        "Marriott Europe"
+      ],
+      "cabs": [
+        "FreeNow Business",
+        "Uber for Business",
+        "Sixt Corporate"
+      ]
+    },
+    "UK": {
+      "portal": "SAP Concur UK",
+      "airlines": [
+        "British Airways On Business",
+        "Virgin Atlantic Corporate",
+        "EasyJet Business"
+      ],
+      "hotels": [
+        "Premier Inn Business",
+        "Hilton UK",
+        "IHG Business Edge"
+      ],
+      "cabs": [
+        "Uber for Business",
+        "Addison Lee Corporate",
+        "National Rail Business"
+      ]
+    },
+    "APAC": {
+      "portal": "SAP Concur APAC",
+      "airlines": [
+        "Singapore Airlines HighFlyer",
+        "ANA Corporate",
+        "Qantas Business"
+      ],
+      "hotels": [
+        "Pan Pacific Corporate",
+        "Shangri-La Business",
+        "Marriott APAC"
+      ],
+      "cabs": [
+        "Grab for Business",
+        "Uber for Business",
+        "Gojek Corporate"
+      ]
+    }
+  }
+}

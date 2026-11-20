@@ -1,0 +1,422 @@
+[
+    {
+        "id": "T001",
+        "category": "flight_policy",
+        "query": "Can a standard employee book business class?",
+        "gold_answer": "Standard employees must book economy class. Business class is not permitted under the sample policy.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T002",
+        "category": "flight_policy",
+        "query": "Is business class allowed for executives?",
+        "gold_answer": "Yes. Executive employees are permitted to book business class.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T003",
+        "category": "flight_policy",
+        "query": "What cabin class should a contractor book?",
+        "gold_answer": "Contractors must book economy class.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T004",
+        "category": "flight_policy",
+        "query": "Can a contractor book business class?",
+        "gold_answer": "No. Contractors must book economy class.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T005",
+        "category": "flight_policy",
+        "query": "How early should I book my flight?",
+        "gold_answer": "Flights should normally be booked at least 14 calendar days before departure.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T006",
+        "category": "flight_policy",
+        "query": "I booked my flight 5 days before departure. What happens?",
+        "gold_answer": "Bookings within 14 days require business justification and manager review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T007",
+        "category": "flight_policy",
+        "query": "Can an executive book a flight 3 days before travel?",
+        "gold_answer": "The 14-day advance booking rule applies. A booking within 14 days requires business justification and manager review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T008",
+        "category": "flight_policy",
+        "query": "Can I get an exception for business class?",
+        "gold_answer": "An international business-class exception requires written executive authorization. The agent cannot approve it.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T009",
+        "category": "flight_policy",
+        "query": "What is the flight policy for regular employees?",
+        "gold_answer": "Regular full-time employees are classified as Standard and must book economy class.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T010",
+        "category": "flight_policy",
+        "query": "Is a last-minute flight booking automatically approved?",
+        "gold_answer": "No. Bookings within 14 days require business justification and manager review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T011",
+        "category": "hotel_policy",
+        "query": "What is the hotel limit for executives?",
+        "gold_answer": "The executive hotel limit is INR 12,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T012",
+        "category": "hotel_policy",
+        "query": "What is the hotel limit for standard employees?",
+        "gold_answer": "The standard employee hotel limit is INR 6,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T013",
+        "category": "hotel_policy",
+        "query": "What is the hotel limit for contractors?",
+        "gold_answer": "The contractor hotel limit is INR 4,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T014",
+        "category": "hotel_policy",
+        "query": "Can a standard employee book a hotel for INR 5,000?",
+        "gold_answer": "Yes. INR 5,000 is within the standard employee limit of INR 6,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T015",
+        "category": "hotel_policy",
+        "query": "Can a contractor book a hotel for INR 5,000?",
+        "gold_answer": "INR 5,000 exceeds the contractor limit of INR 4,000. Manager approval is required for an exception.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T016",
+        "category": "hotel_policy",
+        "query": "An executive wants a hotel costing INR 10,000. Is it within policy?",
+        "gold_answer": "Yes. INR 10,000 is within the executive limit of INR 12,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T017",
+        "category": "hotel_policy",
+        "query": "A standard employee selected a hotel costing INR 8,000. What should happen?",
+        "gold_answer": "INR 8,000 exceeds the standard employee limit of INR 6,000. Manager approval is required for an exception.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T018",
+        "category": "hotel_policy",
+        "query": "What happens when hotel costs exceed the limit?",
+        "gold_answer": "The exception requires manager approval.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T019",
+        "category": "hotel_policy",
+        "query": "Can a contractor book a hotel for INR 3,500?",
+        "gold_answer": "Yes. INR 3,500 is within the contractor limit of INR 4,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T020",
+        "category": "hotel_policy",
+        "query": "Is an INR 12,000 hotel within the standard employee limit?",
+        "gold_answer": "No. It exceeds the standard employee limit of INR 6,000 per night.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T021",
+        "category": "meal_policy",
+        "query": "What is the executive daily meal allowance?",
+        "gold_answer": "The executive daily meal allowance is INR 2,500.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T022",
+        "category": "meal_policy",
+        "query": "What is the standard employee meal allowance?",
+        "gold_answer": "The standard employee daily meal allowance is INR 1,500.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T023",
+        "category": "meal_policy",
+        "query": "What is the contractor daily meal allowance?",
+        "gold_answer": "The contractor daily meal allowance is INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T024",
+        "category": "meal_policy",
+        "query": "Can a standard employee claim INR 1,200 for meals?",
+        "gold_answer": "Yes. INR 1,200 is within the standard employee daily limit of INR 1,500.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T025",
+        "category": "meal_policy",
+        "query": "Can a contractor claim INR 1,200 for meals?",
+        "gold_answer": "INR 1,200 exceeds the contractor daily limit of INR 1,000. Justification and finance review are required.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T026",
+        "category": "meal_policy",
+        "query": "Can an executive claim INR 2,000 for meals?",
+        "gold_answer": "Yes. INR 2,000 is within the executive daily limit of INR 2,500.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T027",
+        "category": "meal_policy",
+        "query": "A standard employee spends INR 1,800 on meals. What happens?",
+        "gold_answer": "INR 1,800 exceeds the standard employee limit of INR 1,500. Justification and finance review are required.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T028",
+        "category": "meal_policy",
+        "query": "What happens when meal expenses exceed the allowance?",
+        "gold_answer": "Amounts exceeding the applicable limit require justification and finance review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T029",
+        "category": "meal_policy",
+        "query": "Can a contractor claim INR 900 per day?",
+        "gold_answer": "Yes. INR 900 is within the contractor daily limit of INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T030",
+        "category": "meal_policy",
+        "query": "Is INR 2,500 within the standard employee meal allowance?",
+        "gold_answer": "No. It exceeds the standard employee daily limit of INR 1,500.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T031",
+        "category": "receipt_policy",
+        "query": "Are receipts mandatory for expenses above INR 1,000?",
+        "gold_answer": "Yes. Receipts are mandatory for individual expenses exceeding INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T032",
+        "category": "receipt_policy",
+        "query": "Do I need a receipt for an INR 500 expense?",
+        "gold_answer": "The policy does not mandate a receipt for an individual expense of INR 500.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T033",
+        "category": "receipt_policy",
+        "query": "I have an expense of INR 1,500 but no receipt. What happens?",
+        "gold_answer": "The receipt is mandatory because the expense exceeds INR 1,000. Missing receipts require finance review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T034",
+        "category": "receipt_policy",
+        "query": "Is a receipt required for INR 1,200?",
+        "gold_answer": "Yes. The individual expense exceeds INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T035",
+        "category": "receipt_policy",
+        "query": "What happens if I lose a receipt?",
+        "gold_answer": "Missing receipts require finance review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T036",
+        "category": "receipt_policy",
+        "query": "Is a receipt mandatory for INR 1,000 exactly?",
+        "gold_answer": "The policy mandates receipts for amounts exceeding INR 1,000, not amounts equal to INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T037",
+        "category": "receipt_policy",
+        "query": "Can finance review an expense with a missing receipt?",
+        "gold_answer": "Yes. The policy requires finance review for missing receipts.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T038",
+        "category": "receipt_policy",
+        "query": "What is the receipt threshold?",
+        "gold_answer": "Receipts are mandatory for individual expenses exceeding INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T039",
+        "category": "receipt_policy",
+        "query": "Do all expenses require receipts?",
+        "gold_answer": "The sample policy mandates receipts for individual expenses exceeding INR 1,000.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T040",
+        "category": "receipt_policy",
+        "query": "I submitted an INR 2,000 expense without a receipt. Is it compliant?",
+        "gold_answer": "No. A receipt is mandatory for this expense, and missing receipts require finance review.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T041",
+        "category": "mileage_policy",
+        "query": "What is the mileage reimbursement rate?",
+        "gold_answer": "The reimbursement rate is INR 12 per kilometre.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T042",
+        "category": "mileage_policy",
+        "query": "Can I claim personal vehicle mileage?",
+        "gold_answer": "Yes, eligible personal vehicle travel can be reimbursed at INR 12 per kilometre.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T043",
+        "category": "mileage_policy",
+        "query": "What is the reimbursement for 100 kilometres?",
+        "gold_answer": "The reimbursement is INR 1,200, subject to a valid business purpose and recorded distance.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T044",
+        "category": "mileage_policy",
+        "query": "What is the reimbursement for 50 kilometres?",
+        "gold_answer": "The reimbursement is INR 600, subject to a valid business purpose and recorded distance.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T045",
+        "category": "mileage_policy",
+        "query": "What is the reimbursement for 25 kilometres?",
+        "gold_answer": "The reimbursement is INR 300, subject to a valid business purpose and recorded distance.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T046",
+        "category": "mileage_policy",
+        "query": "What information is needed for mileage reimbursement?",
+        "gold_answer": "A valid business purpose and travel distance must be recorded.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T047",
+        "category": "mileage_policy",
+        "query": "Can I claim mileage without recording distance?",
+        "gold_answer": "No. The travel distance must be recorded.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T048",
+        "category": "mileage_policy",
+        "query": "What is the claim for 200 kilometres?",
+        "gold_answer": "The reimbursement is INR 2,400, subject to a valid business purpose and recorded distance.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T049",
+        "category": "mileage_policy",
+        "query": "Is the mileage rate INR 12 per kilometre?",
+        "gold_answer": "Yes. The sample policy specifies INR 12 per kilometre.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T050",
+        "category": "mileage_policy",
+        "query": "Can personal vehicle business travel be reimbursed?",
+        "gold_answer": "Yes. Eligible personal vehicle travel is reimbursed at INR 12 per kilometre, with business purpose and distance recorded.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T051",
+        "category": "approval_policy",
+        "query": "Who approves expenses up to INR 10,000?",
+        "gold_answer": "The Line Manager is the required approver.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T052",
+        "category": "approval_policy",
+        "query": "Who approves expenses of INR 15,000?",
+        "gold_answer": "The Line Manager followed by Finance must approve.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T053",
+        "category": "approval_policy",
+        "query": "Who approves expenses above INR 50,000?",
+        "gold_answer": "The Line Manager, Department Head and Finance must approve.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T054",
+        "category": "approval_policy",
+        "query": "Who approves an expense of INR 8,000?",
+        "gold_answer": "The Line Manager is the required approver.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T055",
+        "category": "approval_policy",
+        "query": "Who approves an expense of INR 30,000?",
+        "gold_answer": "The Line Manager followed by Finance must approve.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T056",
+        "category": "approval_policy",
+        "query": "Who approves an expense of INR 60,000?",
+        "gold_answer": "The Line Manager, Department Head and Finance must approve.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T057",
+        "category": "approval_policy",
+        "query": "Can the AI agent approve an exception?",
+        "gold_answer": "No. Final approval authority remains with designated human approvers.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T058",
+        "category": "approval_policy",
+        "query": "Who approves an expense of exactly INR 10,000?",
+        "gold_answer": "The Line Manager is the required approver.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T059",
+        "category": "approval_policy",
+        "query": "Who approves an expense of exactly INR 50,000?",
+        "gold_answer": "The Line Manager followed by Finance must approve.",
+        "expected_result": "POLICY_LOOKUP"
+    },
+    {
+        "id": "T060",
+        "category": "approval_policy",
+        "query": "Can the AI override a hard policy restriction?",
+        "gold_answer": "No. Hard restrictions cannot be overridden by the AI agent.",
+        "expected_result": "POLICY_LOOKUP"
+    }
+]
