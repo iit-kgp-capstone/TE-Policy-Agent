@@ -1,4 +1,5 @@
 import re
+from itertools import zip_longest
 from pathlib import Path
 from typing import Any
 
@@ -6,10 +7,7 @@ import chromadb
 from flashrank import Ranker, RerankRequest
 from rank_bm25 import BM25Okapi
 
-from src.rag.ingest_chroma import CHROMA_DIR, COLLECTION_NAME, HostedEmbedder
-
-import truststore
-truststore.inject_into_ssl()
+from .ingest_chroma import CHROMA_DIR, COLLECTION_NAME, HostedEmbedder
 
 GRADE_TO_BAND = {
     "L1": "L1-L4", "L2": "L1-L4", "L3": "L1-L4", "L4": "L1-L4",
@@ -31,17 +29,28 @@ class HybridPolicyRetriever:
         reranker_model: str = "ms-marco-MiniLM-L-12-v2",
         confidence_threshold: float = 0.25,
     ):
+        if not chroma_dir.is_dir():
+            raise ValueError("Policy index is missing. Run corpus ingestion first.")
         self.client = chromadb.PersistentClient(path=str(chroma_dir))
-        self.collection = self.client.get_collection(collection_name)
-        self.embedder = HostedEmbedder()
-        self.ranker = Ranker(model_name=reranker_model)
+        self.collection = self.client.get_collection(collection_name, embedding_function=None)
         self.confidence_threshold = confidence_threshold
 
         # Load all chunks from ChromaDB once so BM25 and Dense share identical IDs & metadata
         raw = self.collection.get(include=["documents", "metadatas"])
+        if not raw["ids"]:
+            raise ValueError("Policy index is empty. Run corpus ingestion first.")
+        self.embedder = HostedEmbedder(cache_path=None)
+        self.ranker = Ranker(model_name=reranker_model)
         self.ids: list[str] = raw["ids"]
         self.docs: list[str] = raw["documents"]
         self.metas: list[dict[str, Any]] = raw["metadatas"]
+        self.hotel_titles_by_city: dict[str, set[str]] = {}
+        for meta in self.metas:
+            if meta.get("expense_category") != "hotel" or meta.get("status") != "ACTIVE":
+                continue
+            match = re.match(r"^(.+?) \(Tier-[^)]+\) Hotel Cap\b", meta["title"])
+            if match:
+                self.hotel_titles_by_city.setdefault(match[1].casefold(), set()).add(meta["title"])
         self.id_to_idx: dict[str, int] = {cid: i for i, cid in enumerate(self.ids)}
 
         self.tokenized_corpus = [_tokenize(doc) for doc in self.docs]
@@ -97,25 +106,27 @@ class HybridPolicyRetriever:
         grade: str | None,
         include_superseded: bool,
         top_n: int = 25,
+        titles: set[str] | None = None,
     ) -> list[str]:
         scores = self.bm25.get_scores(_tokenize(query))
         scored = [
             (self.ids[i], float(scores[i]))
             for i in range(len(self.ids))
-            if scores[i] > 0 and self._matches_meta(self.metas[i], region, expense_category, grade, include_superseded)
+            if scores[i] > 0
+            and (titles is None or self.metas[i]["title"] in titles)
+            and self._matches_meta(self.metas[i], region, expense_category, grade, include_superseded)
         ]
         scored.sort(key=lambda x: x[1], reverse=True)
         return [cid for cid, _ in scored[:top_n]]
 
     def _dense_search(
         self,
-        query: str,
+        query_vector: list[float],
         where: dict[str, Any] | None,
         top_n: int = 25,
     ) -> list[str]:
-        q_vec = self.embedder.embed_texts([query])[0]
         res = self.collection.query(
-            query_embeddings=[q_vec],
+            query_embeddings=[query_vector],
             n_results=top_n,
             where=where,
         )
@@ -146,8 +157,63 @@ class HybridPolicyRetriever:
         """
         where = self._build_chroma_where(region, expense_category, grade, include_superseded)
 
-        bm25_ids = self._bm25_search(query, region, expense_category, grade, include_superseded, top_n=25)
-        dense_ids = self._dense_search(query, where, top_n=25)
+        matched_cities = []
+        is_hotel_search = (
+            expense_category.lower() == "hotel"
+            if expense_category is not None
+            else re.search(r"\bhotels?\b", query, re.I) is not None
+        )
+        if not include_superseded and is_hotel_search:
+            matched_cities = [
+                city for city in self.hotel_titles_by_city
+                if re.search(rf"(?<!\w){re.escape(city)}(?!\w)", query.casefold())
+            ]
+        query_vector = self.embedder.embed_texts([query])[0]
+        if not matched_cities:
+            return self._search(query, query_vector, where, region, expense_category, grade, include_superseded, top_k)
+
+        city_searches = {}
+        for city in matched_cities:
+            titles = self.hotel_titles_by_city[city]
+            title_filter = {"title": {"$in": sorted(titles)}}
+            city_filter = {"$and": [where, title_filter]} if where else title_filter
+            city_searches[city] = self._search(
+                query, query_vector, city_filter, region, expense_category, grade,
+                include_superseded, top_k, titles,
+            )
+
+        if len(city_searches) == 1:
+            return next(iter(city_searches.values()))
+
+        results = [
+            excerpt
+            for batch in zip_longest(*(search["results"] for search in city_searches.values()))
+            for excerpt in batch
+            if excerpt is not None
+        ][:top_k]
+        return {
+            "status": "OK" if results else "NO_POLICY_EVIDENCE",
+            "results": results,
+            "debug_trace": {city: search["debug_trace"] for city, search in city_searches.items()},
+        }
+
+    def _search(
+        self,
+        query: str,
+        query_vector: list[float],
+        where: dict[str, Any] | None,
+        region: str | None,
+        expense_category: str | None,
+        grade: str | None,
+        include_superseded: bool,
+        top_k: int,
+        titles: set[str] | None = None,
+    ) -> dict[str, Any]:
+
+        bm25_ids = self._bm25_search(
+            query, region, expense_category, grade, include_superseded, top_n=25, titles=titles,
+        )
+        dense_ids = self._dense_search(query_vector, where, top_n=25)
         fused = self._rrf_fuse(bm25_ids, dense_ids, k=60, top_n=15)
 
         if not fused:

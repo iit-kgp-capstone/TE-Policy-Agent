@@ -1,5 +1,5 @@
 import chromadb
-from src.rag.ingest_chroma import HostedEmbedder, CHROMA_DIR, COLLECTION_NAME
+from .ingest_chroma import HostedEmbedder, CHROMA_DIR, COLLECTION_NAME
 
 client = chromadb.PersistentClient(path=str(CHROMA_DIR))
 col = client.get_collection(COLLECTION_NAME)
