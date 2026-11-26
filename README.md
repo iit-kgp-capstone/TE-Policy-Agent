@@ -42,6 +42,12 @@ evidence above its relevance threshold.
 Hotel searches that name one city from the indexed hotel-cap titles are
 scoped to that city's active hotel caps. The grade filter still applies.
 
+After retrieval, the graph verifies each excerpt against its original Chroma
+chunk. It checks the stored text, citation, policy metadata, and active status.
+Duplicate or inconsistent results and mismatched evidence return HTTP 502.
+This check covers source integrity. Claim amounts and approval decisions
+remain outside the retrieval endpoint.
+
 Run the API test with `python -m pytest tests/test_retrieval_api.py`. It
 uses a temporary Chroma index and substitutes the embedding and reranking
 calls so it can run offline.

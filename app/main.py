@@ -5,9 +5,9 @@ from fastapi import FastAPI, HTTPException, Request
 from openai import APIError
 
 from rag_pipeline.src.rag.hybrid_retriever import HybridPolicyRetriever
-from .retrieval_agent import PolicyRetrievalAgent, RetrievalRequest, RetrievalResponse
+from .retrieval_agent import EvidenceVerificationError, PolicyRetrievalAgent, RetrievalRequest, RetrievalResponse
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger("uvicorn.error.policy_retrieval")
 
 
 @asynccontextmanager
@@ -28,6 +28,9 @@ def health() -> dict[str, str]:
 def retrieve_policy(payload: RetrievalRequest, request: Request) -> RetrievalResponse:
     try:
         return request.app.state.agent.run(payload)
+    except EvidenceVerificationError as exc:
+        logger.warning("Policy evidence verification failed: %s", exc)
+        raise HTTPException(502, "Retrieved policy evidence could not be verified.") from None
     except APIError as exc:
         logger.warning("Query embedding failed (%s)", type(exc).__name__)
         raise HTTPException(503, "The policy embedding service is unavailable.") from exc

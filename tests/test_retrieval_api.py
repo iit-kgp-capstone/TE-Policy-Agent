@@ -56,6 +56,10 @@ def test_human_query_reaches_chroma_and_returns_evidence(tmp_path, monkeypatch):
         hits = [{**passage, "score": 0.9} for passage in request.passages]
         if request.query.startswith("Compare"):
             hits.sort(key=lambda hit: hit["id"], reverse=True)
+        if request.query.startswith("Alter citation"):
+            hits[0]["meta"] = {**hits[0]["meta"], "policy_ref": "UNKNOWN#1"}
+        if request.query.startswith("Alter excerpt"):
+            hits[0]["text"] = "An altered policy clause."
         return hits
 
     monkeypatch.setattr(
@@ -89,6 +93,13 @@ def test_human_query_reaches_chroma_and_returns_evidence(tmp_path, monkeypatch):
         })
         assert comparison.status_code == 200
         assert {item["policy_ref"] for item in comparison.json()["results"]} == {"HOTEL#1", "HOTEL#3"}
+
+        for query_prefix in ("Alter citation", "Alter excerpt"):
+            rejected = client.post("/api/v1/retrieve", json={
+                "user_query": f"{query_prefix} for Mumbai hotel",
+            })
+            assert rejected.status_code == 502
+            assert rejected.json() == {"detail": "Retrieved policy evidence could not be verified."}
 
         empty = client.post("/api/v1/retrieve", json={"user_query": query, "region": "US"})
         assert empty.json() == {"status": "NO_POLICY_EVIDENCE", "results": []}
